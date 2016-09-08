@@ -1,0 +1,10 @@
+.container
+  .row
+    .navbar-div
+      ul.navbar
+        li(class=pageTitle || 'active')
+          a(href='/') Home
+        li(class=pageTitle === 'About' ? 'active' : '')
+          a(href='/about') About
+        li(class=pageTitle === 'Contact' ? 'active' : '')
+          a(href='/contact') Contact

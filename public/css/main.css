@@ -1,0 +1,61 @@
+body {
+  background: orange;
+}
+
+
+/*********************************/
+/*  Navbar styles  */
+.navbar-div {
+  background: red;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+  margin: 1rem;
+  font-size: 20px;
+}
+
+.navbar li > a {
+  text-decoration: none;
+  color: white;
+}
+
+.navbar li > a:hover {
+  color: blue;
+}
+/*********************************/
+
+
+/*********************************/
+/*  Base styles for the index page  */
+.container {
+  text-align: center;
+}
+
+.header {
+  color: red;
+}
+/*********************************/
+
+
+/*********************************/
+/*  Styling for the about page  */
+.about-p {
+  margin: 5rem;
+}
+/*********************************/
+
+
+/*********************************/
+/*  Contact Form  */
+.contact-form {
+  border: solid 1px black;
+  background: red;
+  margin: auto;
+  width: 40vh;
+}
+/*********************************/

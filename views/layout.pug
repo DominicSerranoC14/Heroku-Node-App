@@ -1,0 +1,14 @@
+doctype html
+html
+
+  include templates/head.pug
+
+  body
+
+    include templates/navbar.pug
+
+    .container
+      //- the 'block content' is where the layout will be included
+      block content
+
+    include templates/scripts.pug    
