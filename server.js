@@ -3,12 +3,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+//Pass db into the routes function
 const routes = require('./routes/');
+const { connect } = require('./database');
 
 //Set an 'env' var of port to use that port #
 //Otherwise use port 3000
 const port = process.env.PORT || 3000;
 app.set('port', port);
+/////////////////////////////////////////
 
 
 /////////////////////////////////////////
@@ -67,7 +70,11 @@ app.use( (err, req, res, next) => {
 
 /////////////////////////////////////////
 //Server listening on port 3000
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
-});
+connect()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Express server listening on port ${port}`);
+    });
+  })
+  .catch(console.error);
 /////////////////////////////////////////
