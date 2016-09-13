@@ -26,6 +26,7 @@ router.post('/contact', (req, res) => {
   //'req.query' -- this is an obj containing a prop for each query string param in the route. If there is no query string, it is '{}'
 
   //Interfacing with mongodb
+  //Grabbing the db and inserting to the 'contact' collection
   db().collection('contact')
   //Use req.body once you have body-parsed the form data
   .insertOne(req.body)

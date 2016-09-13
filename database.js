@@ -10,5 +10,6 @@ let db;
 /////////////////////////////////////////
 //Export the connection to mongodb
 module.exports.connect = () => connect(MONGODB_URL).then(_db => db = _db);
+//Exporting the db object as a getter function
 module.exports.db = () => db;
 /////////////////////////////////////////
