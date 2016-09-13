@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 //Pass db into the routes function
 const routes = require('./routes/');
+//Importing the mongodb connection
 const { connect } = require('./database');
 
 //Set an 'env' var of port to use that port #
