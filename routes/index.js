@@ -2,10 +2,12 @@
 
 const { Router } = require('express');
 const router = Router();
-const { db } = require('../database');
+const Contact = require('../models/contact');
+/////////////////////////////////////////
+
 
 /////////////////////////////////////////
-// Route for '/'
+// GET routers
 router.get('/', (req, res) => {
   //Will render the index file in the views dir
   res.render('index.pug', {active: true});
@@ -21,12 +23,11 @@ router.get('/contact', (req, res) => {
   res.render('contact.pug', {pageTitle: 'Contact', active: true});
 
 });
+/////////////////////////////////////////
 
-//Require in mongoose
-//With mongoose, we never have to directly interface with the db
-const mongoose = require('mongoose');
-const Contact = mongoose.model('Contact');
 
+/////////////////////////////////////////
+//POST routers
 router.post('/contact', (req, res) => {
 
   //Instantiating a new Contact obj
@@ -38,5 +39,7 @@ router.post('/contact', (req, res) => {
     .catch(() => res.send('BAD'));
 
 });
+/////////////////////////////////////////
+
 
 module.exports = router;
