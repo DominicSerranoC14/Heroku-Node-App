@@ -3,6 +3,7 @@
 const { Router } = require('express');
 const router = Router();
 const Contact = require('../models/contact');
+const Order = require('../models/order')
 /////////////////////////////////////////
 
 
@@ -23,6 +24,11 @@ router.get('/contact', (req, res) => {
   res.render('contact.pug', {pageTitle: 'Contact', active: true});
 
 });
+
+//Route for the order page
+router.get('/order', (req, res) => {
+  res.render('order', {pageTitle: 'Order'});
+});
 /////////////////////////////////////////
 
 
@@ -32,6 +38,18 @@ router.post('/contact', (req, res) => {
 
   //Instantiating a new Contact obj
   const msg = Contact(req.body);
+
+  //Then save the new msg object
+  msg.save()
+    .then(() => res.redirect('/'))
+    .catch(() => res.send('BAD'));
+
+});
+
+router.post('/order', (req, res) => {
+
+  //Instantiating a new Contact obj
+  const msg = Order(req.body);
 
   //Then save the new msg object
   msg.save()
