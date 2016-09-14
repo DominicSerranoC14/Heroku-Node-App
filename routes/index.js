@@ -22,18 +22,20 @@ router.get('/contact', (req, res) => {
 
 });
 
-router.post('/contact', (req, res) => {
-  //'req.query' -- this is an obj containing a prop for each query string param in the route. If there is no query string, it is '{}'
+//Require in mongoose
+//With mongoose, we never have to directly interface with the db
+const mongoose = require('mongoose');
+const Contact = mongoose.model('Contact');
 
-  //Interfacing with mongodb
-  //Grabbing the db and inserting to the 'contact' collection
-  db().collection('contact')
-  //Use req.body once you have body-parsed the form data
-  .insertOne(req.body)
-  //Sends a suggestion to the browser that if should redirect to the '/' route
-  //Sends error '302'
-  .then(() => res.redirect('/'))
-  .catch(() => res.send('BAD'));
+router.post('/contact', (req, res) => {
+
+  //Instantiating a new Contact obj
+  const msg = Contact(req.body);
+
+  //Then save the new msg object
+  msg.save()
+    .then(() => res.redirect('/'))
+    .catch(() => res.send('BAD'));
 
 });
 
