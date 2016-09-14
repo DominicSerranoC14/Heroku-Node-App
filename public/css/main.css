@@ -2,6 +2,10 @@ body {
   background: orange;
 }
 
+button, label, input {
+  margin: auto .5rem;
+}
+
 
 /*********************************/
 /*  Navbar styles  */

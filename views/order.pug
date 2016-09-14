@@ -31,6 +31,12 @@ block content
           option(selected disabled) -- Choose Size --
           each size in sizes
             option(value=size.inches) #{size.name}: #{size.inches}
+      .form-group
+        label Toppings
+      .form-group
+        each topping in toppingList
+          label(for=topping.title) #{topping.title}
+          input#cheese(type='checkbox' name=topping.title value=topping.title)
 
       .form-group
         button.btn Cancel

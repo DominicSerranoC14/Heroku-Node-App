@@ -5,6 +5,7 @@ const router = Router();
 const Contact = require('../models/contact');
 const Order = require('../models/order');
 const Size = require('../models/size');
+const Topping = require('../models/topping');
 /////////////////////////////////////////
 
 
@@ -29,11 +30,14 @@ router.get('/contact', (req, res) => {
 //Route for the order page
 router.get('/order', (req, res) => {
 
-  //Get size data from db
-  const sizes = Size.find().sort({inches: 1})
-  .then((sizes) => {
-    res.render('order', {pageTitle: 'Order', sizes});
-  });
+  //Pass in an array of promises
+  //Then the resolves are passed back
+  Promise
+    .all([
+      Size.find().sort({inches: 1}),
+      Topping.find()
+    ])
+    .then(([sizes, toppingList]) => res.render('order.pug', {pageTitle: 'Order', sizes, toppingList}));
 
 });
 /////////////////////////////////////////
