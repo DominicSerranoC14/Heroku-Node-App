@@ -1,5 +1,6 @@
 extends layout.pug
 
+
 //- This tag is needed for pug to plug the html in the layout
 block content
 
@@ -28,9 +29,8 @@ block content
       .form-group
         select#size(name='size')
           option(selected disabled) -- Choose Size --
-          option(value='8') Small 8"
-          option(value='10') Medium 10"
-          option(value='12') Large 12"
+          each size in sizes
+            option(value=size.inches) #{size.name}: #{size.inches}
 
       .form-group
         button.btn Cancel

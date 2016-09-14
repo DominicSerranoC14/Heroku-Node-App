@@ -3,7 +3,8 @@
 const { Router } = require('express');
 const router = Router();
 const Contact = require('../models/contact');
-const Order = require('../models/order')
+const Order = require('../models/order');
+const Size = require('../models/size');
 /////////////////////////////////////////
 
 
@@ -27,34 +28,36 @@ router.get('/contact', (req, res) => {
 
 //Route for the order page
 router.get('/order', (req, res) => {
-  res.render('order', {pageTitle: 'Order'});
+
+  //Get size data from db
+  const sizes = Size.find().sort({inches: 1})
+  .then((sizes) => {
+    res.render('order', {pageTitle: 'Order', sizes});
+  });
+
 });
 /////////////////////////////////////////
 
 
 /////////////////////////////////////////
 //POST routers
-router.post('/contact', (req, res) => {
+router.post('/contact', (req, res, error) => {
 
-  //Instantiating a new Contact obj
-  const msg = Contact(req.body);
-
-  //Then save the new msg object
-  msg.save()
+  //Instantiating and sending a new Contact obj from the Contact model
+  Contact
+    .create(req.body)
     .then(() => res.redirect('/'))
-    .catch(() => res.send('BAD'));
+    .catch(error);
 
 });
 
-router.post('/order', (req, res) => {
+router.post('/order', (req, res, error) => {
 
-  //Instantiating a new Contact obj
-  const msg = Order(req.body);
-
-  //Then save the new msg object
-  msg.save()
+  //Instantiating and sending a new Order obj from the Order model
+  Order
+    .create(req.body)
     .then(() => res.redirect('/'))
-    .catch(() => res.send('BAD'));
+    .catch(error);
 
 });
 /////////////////////////////////////////
