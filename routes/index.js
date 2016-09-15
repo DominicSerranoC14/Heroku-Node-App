@@ -2,10 +2,15 @@
 
 const { Router } = require('express');
 const router = Router();
-const { db } = require('../database');
+const Contact = require('../models/contact');
+const Order = require('../models/order');
+const Size = require('../models/size');
+const Topping = require('../models/topping');
+/////////////////////////////////////////
+
 
 /////////////////////////////////////////
-// Route for '/'
+// GET routers
 router.get('/', (req, res) => {
   //Will render the index file in the views dir
   res.render('index.pug', {active: true});
@@ -22,19 +27,57 @@ router.get('/contact', (req, res) => {
 
 });
 
-router.post('/contact', (req, res) => {
-  //'req.query' -- this is an obj containing a prop for each query string param in the route. If there is no query string, it is '{}'
+//Route for the order page
+router.get('/order', (req, res) => {
 
-  //Interfacing with mongodb
-  //Grabbing the db and inserting to the 'contact' collection
-  db().collection('contact')
-  //Use req.body once you have body-parsed the form data
-  .insertOne(req.body)
-  //Sends a suggestion to the browser that if should redirect to the '/' route
-  //Sends error '302'
-  .then(() => res.redirect('/'))
-  .catch(() => res.send('BAD'));
+  //Pass in an array of promises
+  //Then the resolves are passed back
+  Promise
+    .all([
+      Size.find().sort({inches: 1}),
+      Topping.find()
+    ])
+    .then(([sizes, toppingList]) => {
+      res.render('order.pug', {pageTitle: 'Order', sizes, toppingList})
+    });
 
 });
+/////////////////////////////////////////
+
+
+/////////////////////////////////////////
+//POST routers
+router.post('/contact', (req, res, error) => {
+
+  //Instantiating and sending a new Contact obj from the Contact model
+  Contact
+    .create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(error);
+
+});
+
+router.post('/order', (req, res, error) => {
+
+  console.log("Test req.body", req.body);
+  Order
+    .create(req.body)
+    .then(() => res.redirect('/'))
+    .catch((error) => {
+      //showing errors on failed submital
+      //Rerender the order for with toppings and sizes
+      const msg = Object.keys(error.errors).map(key => error.errors[key].message);
+      return Promise
+      .all([
+        Size.find().sort({inches: 1}),
+        Topping.find()
+      ])
+      .then(([sizes, toppingList]) => {
+        res.render('order.pug', {pageTitle: 'Order', sizes, toppingList, msg})
+      });
+    });
+});
+/////////////////////////////////////////
+
 
 module.exports = router;

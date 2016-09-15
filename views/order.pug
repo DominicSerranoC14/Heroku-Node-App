@@ -1,0 +1,46 @@
+extends layout.pug
+
+
+//- This tag is needed for pug to plug the html in the layout
+block content
+
+  if msg
+    h1= msg
+
+  .container
+    form(method='POST').form-horizontal.contact-form
+      .form-group
+        h1 Order Page
+
+      .form-group
+        label(for='name') First Name
+      .form-group
+        input#name(type='text' name='name' placeholder='Name' required)
+
+      .form-group
+        label(for='email') Email
+      .form-group
+        input#email(type='email' name='email' placeholder='Email' required)
+
+      .form-group
+        label(for='phone') Phone
+      .form-group
+        input#email(type='tel' name='phone' placeholder='Phone' required)
+
+      .form-group
+        label(for='size') Size
+      .form-group
+        select#size(name='size')
+          option(selected disabled) -- Choose Size --
+          each size in sizes
+            option(value=size.inches) #{size.name}: #{size.inches}
+      .form-group
+        label Toppings
+      .form-group
+        each topping in toppingList
+          .form-group
+            input#cheese(type='checkbox' name='toppings' value=topping.title)
+            | #{topping.title}
+      .form-group
+        button.btn Cancel
+        button.btn Submit
