@@ -60,12 +60,22 @@ router.post('/contact', (req, res, error) => {
 router.post('/order', (req, res, error) => {
 
   console.log("Test req.body", req.body);
-  //Instantiating and sending a new Order obj from the Order model
   Order
     .create(req.body)
     .then(() => res.redirect('/'))
-    .catch(error);
-
+    .catch((error) => {
+      //showing errors on failed submital
+      //Rerender the order for with toppings and sizes
+      const msg = Object.keys(error.errors).map(key => error.errors[key].message);
+      return Promise
+      .all([
+        Size.find().sort({inches: 1}),
+        Topping.find()
+      ])
+      .then(([sizes, toppingList]) => {
+        res.render('order.pug', {pageTitle: 'Order', sizes, toppingList, msg})
+      });
+    });
 });
 /////////////////////////////////////////
 
