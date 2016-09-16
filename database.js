@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://userNamePizza:Pizza0001@ds033046.mlab.com:33046/pizzadebeppo';
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost:27017/pizzadebeppo';
 /////////////////////////////////////////
 
 
