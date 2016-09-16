@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 //Pass db into the routes function
 const routes = require('./routes/');
 //Importing the mongodb connection
-const { connect } = require('./database');
+const { connect } = require('./db/database');
 
 //Set an 'env' var of port to use that port #
 //Otherwise use port 3000
