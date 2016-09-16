@@ -1,8 +1,8 @@
 'use strict';
 
 const { connect, disconnect } = require('./database');
-const Size = require('./models/size');
-const Topping = require('./models/topping');
+const Size = require('../models/size');
+const Topping = require('../models/topping');
 
 //Drop the collections first
 connect()
@@ -22,6 +22,6 @@ connect()
     {title: 'Onion'}
   ])
 )
+//disconnect the server after seeding
 .then(disconnect)
 .catch(console.error);
-//disconnect the server after seeding
