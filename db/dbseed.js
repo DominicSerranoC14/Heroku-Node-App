@@ -6,8 +6,8 @@ const Topping = require('../models/topping');
 
 //Drop the collections first
 connect()
-.then(() => ( Size.remove({})))
-.then(() => ( Topping.remove({})))
+.then(() => Size.remove({}))
+.then(() => Topping.remove({}))
 .then(() =>
   Size.insertMany([
     {inches: 8, name: 'Small'},
