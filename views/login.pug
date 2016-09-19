@@ -1,0 +1,27 @@
+extends layout.pug
+
+
+//- This tag is needed for pug to plug the html in the layout
+block content
+
+  if error
+    h4= error
+
+  .container
+    form(method='POST').form-horizontal.contact-form
+      .form-group
+        h1 Login
+
+      .form-group
+        label(for='email') Email
+      .form-group
+        input#email(type='email' name='email' placeholder='Email')
+
+      .form-group
+        label(for='message') Password
+      .form-group
+        input#message(type='password' name='message' placeholder='Password')
+
+      .form-group
+        button.btn Cancel
+        button.btn(type='submit') Login
