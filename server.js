@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 //Pass db into the routes function
 const routes = require('./routes/');
 //Importing the mongodb connection
@@ -17,6 +19,17 @@ app.set('port', port);
 
 /////////////////////////////////////////
 //Middle-ware
+
+//Session Middle-ware
+app.use(session({
+  store: new RedisStore(),
+  secret: 'pizzaisaveggie'
+}));
+
+app.use((req, res, next) => {
+  app.locals.email = req.session.email;
+  next();
+});
 
 //Custom middleware
 //Can create route specific middleware ie: '/user/:id'

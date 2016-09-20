@@ -2,11 +2,12 @@
 
 const { Router } = require('express');
 const router = Router();
+const bcrypt = require('bcrypt');
 const Contact = require('../models/contact');
 const Order = require('../models/order');
 const Size = require('../models/size');
 const Topping = require('../models/topping');
-const User = require('../models/topping');
+const User = require('../models/user');
 /////////////////////////////////////////
 
 
@@ -58,22 +59,52 @@ router.get('/order', (req, res) => {
 
 /////////////////////////////////////////
 //POST routers
-router.post('/login', (req, res, error) => {
-
-  if (req.body.password === 'password') {
-    res.redirect('/');
-  } else {
-    res.render('login', {error: 'Email & password does not match.'})
-  }
-
+router.post('/login', ({session, body: {email, password}}, res, err) => {
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        return new Promise((resolve, reject) => {
+          bcrypt.compare(password, user.password, (err, matches) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(matches);
+            }
+          })
+        })
+      } else {
+        res.render('login', { error: 'Email does not exist'});
+      }
+    })
+    .then((matches) => {
+      if (matches) {
+        //Store the user email on the current session
+        session.email = email;
+        res.redirect('/');
+      } else {
+        res.render('login', {error: 'Password does not match'} );
+      }
+    })
+    .catch(err);
 });
 
 
 //POST register route
-router.post('/register', (req, res, error) => {
+router.post('/register', ({body: {email, password, confirmPassword}}, res, err) => {
 
-  if (req.body.password === req.body.confirmPassword) {
-    res.redirect('/');
+  if (password === confirmPassword) {
+    return new Promise((resolve, reject) => {
+      bcrypt.hash(password, 15, (err, hash) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(hash);
+        }
+      })
+    })
+    .then((hash) => {
+      User.create({ email, password: hash }).then(res.redirect('/'));
+    });
   } else {
     res.render('register', {error: 'Email & password does not match.'})
   }
