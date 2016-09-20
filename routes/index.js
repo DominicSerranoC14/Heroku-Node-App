@@ -18,14 +18,9 @@ router.get('/', (req, res) => {
   res.render('index.pug', {active: true});
 });
 
-//Route for login page
 router.get('/login', (req, res) => {
-  res.render('login.pug');
-});
-
-//Route for registration page
-router.get('/register', (req, res) => {
-  res.render('register.pug');
+  //Will render the index file in the views dir
+  res.render('login', {pageTitle: 'Login', error: 'You must sign in to view this page.'});
 });
 
 //Route for about page
@@ -36,23 +31,6 @@ router.get('/about', (req, res) => {
 //Route for the contact page
 router.get('/contact', (req, res) => {
   res.render('contact.pug', {pageTitle: 'Contact', active: true});
-
-});
-
-//Route for the order page
-router.get('/order', (req, res) => {
-
-  //Pass in an array of promises
-  //Then the resolves are passed back
-  Promise
-    .all([
-      Size.find().sort({inches: 1}),
-      Topping.find()
-    ])
-    .then(([sizes, toppingList]) => {
-      res.render('order.pug', {pageTitle: 'Order', sizes, toppingList})
-    });
-
 });
 /////////////////////////////////////////
 
@@ -111,6 +89,14 @@ router.post('/register', ({body: {email, password, confirmPassword}}, res, err) 
 
 });
 
+//POST Route for logout
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) throw err
+    res.redirect('/login');
+  });
+});
+
 
 router.post('/contact', (req, res, error) => {
 
@@ -121,7 +107,45 @@ router.post('/contact', (req, res, error) => {
     .catch(error);
 
 });
+/////////////////////////////////////////
 
+
+/////////////////////////////////////////
+//Middle ware guard
+//Middle-ware which prohibits users to access the below routes
+router.use((req, res, next) => {
+  if(req.session.email) {
+    next()
+  } else {
+    res.redirect('/login')
+  }
+});
+/////////////////////////////////////////
+
+
+/////////////////////////////////////////
+//GET Route for the logout page
+router.get('/logout', (req, res) => {
+  res.render('logout.pug', {pageTitle: 'Logged out'});
+});
+
+//GET Routes for order page
+router.get('/order', (req, res) => {
+
+  //Pass in an array of promises
+  //Then the resolves are passed back
+  Promise
+    .all([
+      Size.find().sort({inches: 1}),
+      Topping.find()
+    ])
+    .then(([sizes, toppingList]) => {
+      res.render('order.pug', {pageTitle: 'Order', sizes, toppingList})
+    });
+
+});
+
+//POST Routes for order
 router.post('/order', (req, res, error) => {
 
   Order

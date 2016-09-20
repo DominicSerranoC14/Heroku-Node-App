@@ -1,0 +1,10 @@
+extends layout.pug
+
+
+//- This tag is needed for pug to plug the html in the layout
+block content
+
+  h1 Are you sure you want to logout?
+  form(method='POST')
+    button.btn Cancel
+    button.btn(type='submit') Logout

@@ -13,6 +13,8 @@
 
         if email
           li Logged in as #{email}
+          li(class=pageTitle === 'Logout' ? 'active' : '')
+            a(href='/logout') Logout
         else
 
           li(class=pageTitle === 'Login' ? 'active' : '')
