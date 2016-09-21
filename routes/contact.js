@@ -2,24 +2,15 @@
 
 const { Router } = require('express');
 const router = Router();
-const Contact = require('../models/contact');
+const contact = require('../controllers/contact');
+/////////////////////////////////////////
 
 
 /////////////////////////////////////////
 //Routes for the contact page
-router.get('/contact', (req, res) => {
-  res.render('contact.pug', {pageTitle: 'Contact', active: true});
-});
+router.get('/contact', contact.new);
 
-router.post('/contact', (req, res, error) => {
-
-  //Instantiating and sending a new Contact obj from the Contact model
-  Contact
-    .create(req.body)
-    .then(() => res.redirect('/'))
-    .catch(error);
-
-});
+router.post('/contact', contact.create);
 /////////////////////////////////////////
 
 

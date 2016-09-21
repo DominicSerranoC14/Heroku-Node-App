@@ -19,13 +19,9 @@ router.get('/', (req, res) => {
   //Will render the index file in the views dir
   res.render('index');
 });
-// GET routers
 router.use(contact);
-//Route for about page
 router.use(about);
-//Route for GET /login
 router.use(login);
-//register routes
 router.use(register);
 /////////////////////////////////////////
 
@@ -44,9 +40,7 @@ router.use((req, res, next) => {
 
 
 /////////////////////////////////////////
-//Routes for logout page
 router.use(logout);
-//Routes for order page
 router.use(order);
 /////////////////////////////////////////
 
