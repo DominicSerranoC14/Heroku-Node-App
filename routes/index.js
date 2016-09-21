@@ -4,6 +4,7 @@ const { Router } = require('express');
 const router = Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const root = require('./root');
 const contact = require('./contact');
 const login = require('./login');
 const register = require('./register');
@@ -14,11 +15,7 @@ const order = require('./order');
 
 
 /////////////////////////////////////////
-
-router.get('/', (req, res) => {
-  //Will render the index file in the views dir
-  res.render('index');
-});
+router.use(root);
 router.use(contact);
 router.use(about);
 router.use(login);

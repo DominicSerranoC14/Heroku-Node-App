@@ -4,7 +4,6 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 /////////////////////////////////////////
 
-
 /////////////////////////////////////////
 module.exports.new = (req, res) => {
   //Will render the index file in the views dir
@@ -38,5 +37,16 @@ module.exports.create = ({session, body: {email, password}}, res, err) => {
       }
     })
     .catch(err);
+}
+/////////////////////////////////////////
+
+/////////////////////////////////////////
+module.exports.index = (req, res) => res.render('logout');
+
+module.exports.destroy = (req, res) => {
+  req.session.destroy(err => {
+    if (err) throw err
+    res.redirect('/login');
+  });
 }
 /////////////////////////////////////////

@@ -2,15 +2,11 @@
 
 const { Router } = require('express');
 const router = Router();
-const logout = require('../controllers/session');
+const root = require('../controllers/root');
 /////////////////////////////////////////
 
-
 /////////////////////////////////////////
-//Routes for logout
-router.get('/logout', logout.index);
-
-router.post('/logout', logout.destroy);
+router.get('/', root);
 /////////////////////////////////////////
 
 module.exports = router;
