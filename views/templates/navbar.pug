@@ -10,3 +10,14 @@
           a(href='/contact') Contact
         li(class=pageTitle === 'Order' ? 'active' : '')
           a(href='/order') Order
+
+        if email
+          li Logged in as #{email}
+          li(class=pageTitle === 'Logout' ? 'active' : '')
+            a(href='/logout') Logout
+        else
+
+          li(class=pageTitle === 'Login' ? 'active' : '')
+            a(href='/login') Login
+          li(class=pageTitle === 'Register' ? 'active' : '')
+            a(href='/register') Register
