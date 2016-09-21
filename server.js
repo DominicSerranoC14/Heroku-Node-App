@@ -19,11 +19,10 @@ app.set('port', port);
 
 /////////////////////////////////////////
 //Middle-ware
-
 //Session Middle-ware
 app.use(session({
   store: new RedisStore({
-    url: process.env.REDIS_URL || 'redis//localhost:6379'
+    url: process.env.REDIS_URL || 'redis://localhost:6379'
   }),
   secret: 'pizzaisaveggie'
 }));
@@ -50,9 +49,6 @@ if ( process.env.NODE_ENV === 'production' ) {
 }
 //Serve up a static index.html file here
 app.use(express.static('public'));
-
-//'app.locals' is a way to set a global variable for your templating engine. Can use this on each .pug file
-app.locals.company = 'Pizza de Beppo';
 
 //This listens for form data, and then parses the form data into a readable obj
 app.use(bodyParser.urlencoded({extended: false}));
